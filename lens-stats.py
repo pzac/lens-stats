@@ -23,9 +23,22 @@ def get_files():
     files = glob.glob("**/*.jpg")
     return files
 
+def focal_length(exif_data):
+    values = exif_data.get('FocalLength')
+    if values:
+        a, b = values
+        return a / b
+    else:
+      return None
+
 def run():
     files = get_files()
     for file in files:
-        print get_exif_data(file)
+        exif_data = get_exif_data(file)
+        focal = focal_length(exif_data)
+        if focal:
+            print "{0} : {1}mm".format(file, focal)
+        else:
+            print "{0} : N/A".format(file)
 
 run()
