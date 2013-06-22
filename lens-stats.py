@@ -1,5 +1,5 @@
 import glob
-import photo_analyzer
+import exif_parser
 
 def get_files():
     "Returns an array of matching filenames"
@@ -9,8 +9,7 @@ def get_files():
 def run():
     files = get_files()
     for file in files:
-        exif_data = photo_analyzer.get_exif_data(file)
-        focal = photo_analyzer.focal_length(exif_data)
+        focal = exif_parser.focal_length(file)
         if focal:
             print "{0} : {1}mm".format(file, focal)
         else:

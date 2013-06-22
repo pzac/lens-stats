@@ -16,7 +16,7 @@ def get_exif_data(fname):
         print 'IOERROR ' + fname
     return ret
 
-def focal_length(exif_data):
+def extract_focal_length(exif_data):
     focal_length_in_35_mm = exif_data.get('FocalLengthIn35Mm')
     if focal_length_in_35_mm:
         return focal_length_in_35_mm
@@ -26,3 +26,7 @@ def focal_length(exif_data):
         return a / b
     else:
       return None
+
+def focal_length(fname):
+    exif = get_exif_data(fname)
+    return extract_focal_length(exif)
