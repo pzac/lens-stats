@@ -4,15 +4,21 @@ import exif_parser
 
 def get_files(root = None):
     "Returns an array of matching filenames"
+    extensions = ['JPG', 'jpg']
+    files = []
+    for ext in extensions:
+        files = files + get_files_with_extension(root, ext)
     if root:
         print "Parsing files in %s" % root
-        selector = "%s/**/*.jpg" % root
-    else:
-        selector = "**/*.jpg"
-
-    files = glob.glob(selector)
     print "Total files: %s" % len(files)
     return files
+
+def get_files_with_extension(root, ext):
+    if root:
+      selector = "%s/**/*.%s" % (root, ext)
+    else:
+      selector = "**/*.%s" % ext
+    return glob.glob(selector)
 
 def run():
     data = {}
@@ -23,6 +29,7 @@ def run():
     files = get_files(root)
     for file in files:
         focal = exif_parser.focal_length(file)
+        print "%s: %s" % (file, focal)
         if data.get(focal):
             data[focal] = data[focal] + 1
         else:
