@@ -26,7 +26,10 @@ def extract_focal_length(exif_data):
     values = exif_data.get('FocalLength')
     if values:
         a, b = values
-        return a / b
+        if b == 0:
+            return a
+        else:
+            return a / b
     else:
       return None
 
