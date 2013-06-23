@@ -12,12 +12,14 @@ def get_exif_data(fname):
                 for tag, value in exifinfo.items():
                     decoded = TAGS.get(tag, tag)
                     ret[decoded] = value
+                # PIL.ExifTags.TAGS lacks the FocalLengthIn35Mm definition
                 ret['FocalLengthIn35Mm'] = exifinfo.get(41989)
     except IOError:
         print 'IOERROR ' + fname
     return ret
 
 def extract_focal_length(exif_data):
+    "Returns the focal length from the EXIF data hash"
     focal_length_in_35_mm = exif_data.get('FocalLengthIn35Mm')
     if focal_length_in_35_mm:
         return focal_length_in_35_mm
@@ -29,5 +31,6 @@ def extract_focal_length(exif_data):
       return None
 
 def focal_length(fname):
+    "Returns the focal length for a given filename"
     exif = get_exif_data(fname)
     return extract_focal_length(exif)

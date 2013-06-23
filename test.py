@@ -4,6 +4,7 @@ import exif_parser
 class TestExifExtraction(unittest.TestCase):
 
     def test_focal_length(self):
+        # I wonder where the 21.2 value I see on Preview.app comes from
         # self.assertEqual(exif_parser.focal_length('test/1.jpg'), 21.2)
         self.assertEqual(exif_parser.focal_length('test/1.jpg'), 21)
         self.assertEqual(exif_parser.focal_length('test/2.jpg'), 105)
