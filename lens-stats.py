@@ -15,6 +15,11 @@ def run():
             data[focal] = data[focal] + 1
         else:
             data[focal] = 1
-    print data
+    items = sorted([(x, data[x]) for x in data])
+    for i in items:
+        focal, items = i
+        if focal != None:
+            focal = "%smm" % focal
+        print "%s:\t%s" % (focal, items)
 
 run()
