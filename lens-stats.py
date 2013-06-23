@@ -7,12 +7,14 @@ def get_files():
     return files
 
 def run():
+    data = {}
     files = get_files()
     for file in files:
         focal = exif_parser.focal_length(file)
-        if focal:
-            print "{0} : {1}mm".format(file, focal)
+        if data.get(focal):
+            data[focal] = data[focal] + 1
         else:
-            print "{0} : N/A".format(file)
+            data[focal] = 1
+    print data
 
 run()
