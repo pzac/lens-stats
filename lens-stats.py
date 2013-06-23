@@ -1,14 +1,26 @@
+import sys
 import glob
 import exif_parser
 
-def get_files():
+def get_files(root = None):
     "Returns an array of matching filenames"
-    files = glob.glob("**/*.jpg")
+    if root:
+        print "Parsing files in %s" % root
+        selector = "%s/**/*.jpg" % root
+    else:
+        selector = "**/*.jpg"
+
+    files = glob.glob(selector)
+    print "Total files: %s" % len(files)
     return files
 
 def run():
     data = {}
-    files = get_files()
+    if len(sys.argv) > 1:
+        root = sys.argv[1]
+    else:
+        root = None
+    files = get_files(root)
     for file in files:
         focal = exif_parser.focal_length(file)
         if data.get(focal):
