@@ -12,6 +12,7 @@ def get_exif_data(fname):
                 for tag, value in exifinfo.items():
                     decoded = TAGS.get(tag, tag)
                     ret[decoded] = value
+                ret['FocalLengthIn35Mm'] = exifinfo.get(41989)
     except IOError:
         print 'IOERROR ' + fname
     return ret
