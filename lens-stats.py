@@ -5,7 +5,6 @@ import re
 
 def get_files(root = None):
     "Returns an array of matching filenames"
-    extensions = re.compile('\.(jpg|JPG)^')
     if root == None:
         root = "."
     else:
@@ -15,12 +14,11 @@ def get_files(root = None):
     for dir_root, dirs, files in os.walk(root):
         for file in files:
             full_path = os.path.join(dir_root, file)
-            # print full_path
-            if extensions.match(file):
+            if re.match('.*(jpg|JPG)$', file):
                 items.append(full_path)
 
-    print "Total files: %s" % len(files)
-    return files
+    print "Total files: %s" % len(items)
+    return items
 
 def run():
     data = {}
@@ -31,7 +29,7 @@ def run():
     files = get_files(root)
     for file in files:
         focal = exif_parser.focal_length(file)
-        print "%s: %s" % (file, focal)
+        # print "%s: %s" % (file, focal)
         if data.get(focal):
             data[focal] = data[focal] + 1
         else:
