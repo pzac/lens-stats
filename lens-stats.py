@@ -1,24 +1,26 @@
+import os
 import sys
-import glob
 import exif_parser
+import re
 
 def get_files(root = None):
     "Returns an array of matching filenames"
-    extensions = ['JPG', 'jpg']
-    files = []
-    for ext in extensions:
-        files = files + get_files_with_extension(root, ext)
-    if root:
+    extensions = re.compile('\.(jpg|JPG)^')
+    if root == None:
+        root = "."
+    else:
         print "Parsing files in %s" % root
+
+    items = []
+    for dir_root, dirs, files in os.walk(root):
+        for file in files:
+            full_path = os.path.join(dir_root, file)
+            # print full_path
+            if extensions.match(file):
+                items.append(full_path)
+
     print "Total files: %s" % len(files)
     return files
-
-def get_files_with_extension(root, ext):
-    if root:
-      selector = "%s/**/*.%s" % (root, ext)
-    else:
-      selector = "**/*.%s" % ext
-    return glob.glob(selector)
 
 def run():
     data = {}

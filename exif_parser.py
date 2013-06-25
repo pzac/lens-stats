@@ -15,7 +15,7 @@ def get_exif_data(fname):
                 # PIL.ExifTags.TAGS lacks the FocalLengthIn35Mm definition
                 ret['FocalLengthIn35Mm'] = exifinfo.get(41989)
     except IOError:
-        print 'IOERROR ' + fname
+        return 'Error'
     return ret
 
 def extract_focal_length(exif_data):
@@ -36,4 +36,7 @@ def extract_focal_length(exif_data):
 def focal_length(fname):
     "Returns the focal length for a given filename"
     exif = get_exif_data(fname)
-    return extract_focal_length(exif)
+    if exif == 'Error':
+        return 'Error'
+    else:
+        return extract_focal_length(exif)
