@@ -30,15 +30,15 @@ def run():
     for file in files:
         exif = ExifParser(file)
         focal = exif.focal_length()
-        if data.get(focal):
-            data[focal] = data[focal] + 1
+        camera = exif.camera()
+        combo = (focal, camera)
+        if data.get(combo):
+            data[combo] = data[combo] + 1
         else:
-            data[focal] = 1
+            data[combo] = 1
     items = sorted([(x, data[x]) for x in data])
     for i in items:
         focal, items = i
-        if focal != None:
-            focal = "%smm" % focal
         print "%s:\t%s" % (focal, items)
 
 run()
