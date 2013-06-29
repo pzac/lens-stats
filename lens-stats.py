@@ -1,6 +1,6 @@
 import os
 import sys
-import exif_parser
+from exif_parser import ExifParser
 import re
 
 def get_files(root = None):
@@ -28,8 +28,8 @@ def run():
         root = None
     files = get_files(root)
     for file in files:
-        focal = exif_parser.focal_length(file)
-        # print "%s: %s" % (file, focal)
+        exif = ExifParser(file)
+        focal = exif.focal_length()
         if data.get(focal):
             data[focal] = data[focal] + 1
         else:
