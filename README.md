@@ -3,7 +3,17 @@ lens-stats
 
 Ever been curious to know which focal lengths you're using the most often in your pictures? This script extracts the focal length value (if available) from the JPEG EXIF data and shows the usage count, grouping the records by Camera model.
 
-It's a simple python experiment so the code quality is pretty low.
+It's my first Python experiment, so the code quality is expected to be low.
+
+Setup
+-----
+
+You need the PIL library:
+
+```
+pip install PIL
+```
+
 
 Usage
 -----
@@ -39,3 +49,7 @@ iPhone 4S
 35mm: 1
 ```
 
+Links
+-----
+
+* http://www.endlesslycurious.com/2011/05/11/extracting-image-exif-data-with-python/
