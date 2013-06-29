@@ -7,8 +7,6 @@ def get_files(root = None):
     "Returns an array of matching filenames"
     if root == None:
         root = "."
-    else:
-        print "Parsing files in %s" % root
 
     items = []
     for dir_root, dirs, files in os.walk(root):
@@ -17,7 +15,7 @@ def get_files(root = None):
             if re.match('.*(jpg|JPG)$', file):
                 items.append(full_path)
 
-    print "Total files: %s" % len(items)
+    print "Parsed files: %s" % len(items)
     return items
 
 def show_output(data):
@@ -48,7 +46,11 @@ def show_grouped_output(data):
         print "-" * len(label)
         totals = {}
         for focal in sorted(focals.keys()):
-            print "%s:\t%s" % (focal, focals[focal])
+            if focal != None:
+                focal_label = '%dmm' % focal
+            else:
+                focal_label = 'N/A'
+            print "%s:\t%s" % (focal_label, focals[focal])
 
 def run():
     data = {}
