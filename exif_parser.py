@@ -37,3 +37,7 @@ class ExifParser:
               return a / b
       else:
         return None
+
+  def camera(self):
+      "Returns the camera model"
+      return self.exif_data.get('Model')
