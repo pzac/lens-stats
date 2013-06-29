@@ -20,6 +20,36 @@ def get_files(root = None):
     print "Total files: %s" % len(items)
     return items
 
+def show_output(data):
+    "sorted by lens focal"
+    items = sorted([(x, data[x]) for x in data])
+    for i in items:
+        focal, items = i
+        print "%s:\t%s" % (focal, items)
+
+def show_grouped_output(data):
+    "grouped by camera and sorted by lens focal"
+    cameras = {}
+    for datum, ct in data.items():
+        focal, camera = datum
+        if cameras.get(camera):
+            cameras[camera][focal] = ct
+        else:
+            cameras[camera] = {focal: ct}
+
+    for camera, focals in cameras.items():
+        if camera == None:
+            label = 'N/A'
+        else:
+            label = camera
+
+        print ""
+        print label
+        print "-" * len(label)
+        totals = {}
+        for focal in sorted(focals.keys()):
+            print "%s:\t%s" % (focal, focals[focal])
+
 def run():
     data = {}
     if len(sys.argv) > 1:
@@ -36,9 +66,7 @@ def run():
             data[combo] = data[combo] + 1
         else:
             data[combo] = 1
-    items = sorted([(x, data[x]) for x in data])
-    for i in items:
-        focal, items = i
-        print "%s:\t%s" % (focal, items)
+    show_grouped_output(data)
 
-run()
+if __name__ == '__main__':
+    run()
