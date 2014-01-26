@@ -28,14 +28,23 @@ def show_output(data):
 def show_grouped_output(data):
     "grouped by camera and sorted by lens focal"
     cameras = {}
+    
     for datum, ct in data.items():
-        focal, camera = datum
-        if cameras.get(camera):
-            cameras[camera][focal] = ct
-        else:
-            cameras[camera] = {focal: ct}
+        focal, camera, iso, lens = datum
+        
+        groupField = focal
 
-    for camera, focals in cameras.items():
+        if sys.argv[1] == "iso":
+            groupField = iso
+        elif sys.argv[1] == "lens":
+            groupField = lens
+
+        if cameras.get(camera):
+            cameras[camera][groupField] = ct
+        else:
+            cameras[camera] = {groupField: ct}
+
+    for camera, exif in cameras.items():
         if camera == None:
             label = 'N/A'
         else:
@@ -45,17 +54,17 @@ def show_grouped_output(data):
         print label
         print "-" * len(label)
         totals = {}
-        for focal in sorted(focals.keys()):
-            if focal != None:
-                focal_label = '%dmm' % focal
+        for groupField in sorted(exif.keys()):
+            if groupField != None:
+                exiflabel = groupField
             else:
-                focal_label = 'N/A'
-            print "%s:\t%s" % (focal_label, focals[focal])
+                exiflabel = 'N/A'
+            print "%s:\t%s" % (exiflabel, exif[groupField])
 
 def run():
     data = {}
-    if len(sys.argv) > 1:
-        root = sys.argv[1]
+    if len(sys.argv) > 2:
+        root = sys.argv[2]
     else:
         root = None
     files = get_files(root)
@@ -63,7 +72,9 @@ def run():
         exif = ExifParser(file)
         focal = exif.focal_length()
         camera = exif.camera()
-        combo = (focal, camera)
+        iso = exif.iso()
+        lens = exif.lens()
+        combo = (focal, camera, iso, lens)
         if data.get(combo):
             data[combo] = data[combo] + 1
         else:

@@ -41,3 +41,10 @@ class ExifParser:
   def camera(self):
       "Returns the camera model"
       return self.exif_data.get('Model')
+
+  def iso(self):
+    "Returns the ISO"
+    return self.exif_data.get('ISOSpeedRatings')
+  
+  def lens(self):
+    return self.exif_data.get('LensModel')    
