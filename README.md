@@ -1,9 +1,7 @@
 lens-stats
 ==========
 
-Ever been curious to know which focal lengths you're using the most often in your pictures? This script extracts the focal length value (if available) from the JPEG EXIF data and shows the usage count, grouping the records by Camera model.
-
-It's my first Python experiment, so the code quality is expected to be low.
+Ever been curious to know which focal lengths (or ISO, or lens) you're using the most often in your pictures? This script extracts these values (if available) from the JPEG EXIF data and shows the usage count, optionally grouping the records by camera model.
 
 Setup
 -----
@@ -14,42 +12,40 @@ You need the PIL library:
 pip install PIL
 ```
 
-
 Usage
 -----
 
 ```
-python lens-stats.py FOLDER
+usage: python lens-stats.py [-h] [-g] [-i | -l] DIRECTORY
+
+Extracts stats from a picture folder
+
+positional arguments:
+  DIRECTORY             the directory to scan
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g, --group-by-camera
+                        group by camera model
+  -i, --iso             extract ISO value
+  -l, --lens            extract lens model
 ```
 
 The script will look recursively for all JPEG files within the folder. Example output:
 
 ```
-python lens-stats.py ~/Pictures/Varie
-Parsed files: 43
-
-GT-I9000
---------
-3mm:  12
-
-N/A
----
-N/A:  28
-
-FinePix S3Pro
----------------
+ » python lens-stats.py .
 N/A:  1
-
-Canon PowerShot S50
--------------------
-12mm: 1
-
-iPhone 4S
----------
+21mm: 1
+33mm: 1
 35mm: 1
+84mm: 1
+105mm:  1
+Total files: 6
 ```
 
 Links
 -----
 
 * http://www.endlesslycurious.com/2011/05/11/extracting-image-exif-data-with-python/
+
